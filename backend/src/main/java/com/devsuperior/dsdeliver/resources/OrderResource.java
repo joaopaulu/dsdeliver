@@ -26,11 +26,17 @@ public class OrderResource {
     }
 
     @PostMapping
-    public  ResponseEntity<OrderDTO> insert(@RequestBody OrderDTO dto){
+    public ResponseEntity<OrderDTO> insert(@RequestBody OrderDTO dto){
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PutMapping("/{id}/delivered")
+    public ResponseEntity<OrderDTO> setDelivered(@PathVariable Long id){
+        OrderDTO dto = service.setDelivered(id);
+        return ResponseEntity.ok().body(dto);
     }
 
 }

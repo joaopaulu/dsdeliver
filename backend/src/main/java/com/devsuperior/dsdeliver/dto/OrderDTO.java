@@ -4,7 +4,6 @@ import com.devsuperior.dsdeliver.model.Order;
 import com.devsuperior.dsdeliver.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Instant;

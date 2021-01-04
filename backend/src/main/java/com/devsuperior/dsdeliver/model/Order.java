@@ -1,6 +1,5 @@
 package com.devsuperior.dsdeliver.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
