@@ -10,6 +10,7 @@ import Footer from '../Footer';
 
 function Orders() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [orderLocation, setOrderLocation] = useState<OrderLocationdata>();
 
   useEffect(() => {
@@ -18,11 +19,27 @@ function Orders() {
       .catch(error => console.log(error));
   }, []);
 
+  const handleSelectProduct = (product: Product) => {
+    const isAlreadySelected = selectedProducts.some(
+      item => item.id === product.id,
+    );
+
+    if (isAlreadySelected) {
+      const selected = selectedProducts.filter(item => item.id !== product.id);
+      setSelectedProducts(selected);
+    } else {
+      setSelectedProducts(previous => [...previous, product]);
+    }
+  };
+
   return (
     <>
       <div className="orders-container">
         <StepsHeader />
-        <ProductsList products={products} />
+        <ProductsList
+          products={products}
+          onSelectProduct={handleSelectProduct}
+        />
         <OrderLocation
           onChangeLocation={location => setOrderLocation(location)}
         />
