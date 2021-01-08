@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import AsyncSelect from 'react-select/async';
 import { fetchLocalMapBox } from '../api';
+import { OrderLocationdata } from './types';
 
 const initialPosition = {
   lat: -15.808333952990994,
@@ -17,7 +18,11 @@ type Place = {
   };
 };
 
-function OrderLocation() {
+type Props = {
+  onChangeLocation: (location: OrderLocationdata) => void;
+};
+
+function OrderLocation({ onChangeLocation }: Props) {
   const [address, setAddress] = useState<Place>({
     position: initialPosition,
   });
@@ -44,11 +49,11 @@ function OrderLocation() {
 
   const handleChangeSelect = (place: Place) => {
     setAddress(place);
-    // onChangeLocation({
-    //   latitude: place.position.lat,
-    //   longitude: place.position.lng,
-    //   address: place.label!,
-    // });
+    onChangeLocation({
+      latitude: place.position.lat,
+      longitude: place.position.lng,
+      address: place.label!,
+    });
   };
 
   return (
@@ -70,6 +75,7 @@ function OrderLocation() {
           <MapContainer
             center={address.position}
             zoom={17}
+            key={address.position.lat}
             scrollWheelZoom={true}
           >
             <TileLayer
@@ -77,7 +83,7 @@ function OrderLocation() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Marker position={address.position}>
-              <Popup>Meu marcador</Popup>
+              <Popup>{address.label}</Popup>
             </Marker>
           </MapContainer>
         </div>
